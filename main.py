@@ -8,6 +8,7 @@ import os
 import numpy as np
 import pandas as pd
 import cv2
+import time
 import matplotlib.pyplot as plt
 
 from keras.models import Sequential
@@ -32,9 +33,11 @@ image_exts = ['jpeg', 'jpg', 'bmp', 'png']
 img = cv2.imread(os.path.join(data_dir, 'Normal', '2.jpg'))
 img.shape
 
-plt.imshow(cv2.cvtColor(img, cv2.IMREAD_GRAYSCALE))
-plt.imshow(img, cmap='gray_r')
-plt.show()
+# plt.imshow(cv2.cvtColor(img, cv2.IMREAD_GRAYSCALE))
+# plt.imshow(img, cmap='gray_r')
+# plt.show()
+
+start_time = time.time()
 
 # Build dataset with classes on the fly with Keras
 train_data = tf.keras.utils.image_dataset_from_directory(data_dir)
@@ -116,19 +119,20 @@ logdir = 'logs'
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir = logdir)
 hist = model.fit(train_data, epochs=3, validation_data=val_data, callbacks= [tensorboard_callback])
 
-fig = plt.figure()
-plt.plot(hist.history['loss'], color='blue', label='loss')
-plt.plot(hist.history['val_loss'], color='red', label='val_loss')
-fig.suptitle('Loss', fontsize=20)
-plt.legend(loc="upper left")
-plt.show()
+# fig = plt.figure()
+# plt.plot(hist.history['loss'], color='blue', label='loss')
+# plt.plot(hist.history['val_loss'], color='red', label='val_loss')
+# fig.suptitle('Loss', fontsize=20)
+# plt.legend(loc="upper left")
+# plt.show()
 
-fig = plt.figure()
-plt.plot(hist.history['accuracy'], color='teal', label='accuracy')
-plt.plot(hist.history['val_accuracy'], color='orange', label='val_accuracy')
-fig.suptitle('Accuracy', fontsize=20)
-plt.legend(loc="upper left")
-plt.show()
+# fig = plt.figure()
+# plt.plot(hist.history['accuracy'], color='teal', label='accuracy')
+# plt.plot(hist.history['val_accuracy'], color='orange', label='val_accuracy')
+# fig.suptitle('Accuracy', fontsize=20)
+# plt.legend(loc="upper left")
+# plt.show()
 
-
-
+end_time = time.time()
+execution_time = end_time - start_time
+print('Execution time:', time.strftime("%H:%M:%S", time.gmtime(execution_time)))
